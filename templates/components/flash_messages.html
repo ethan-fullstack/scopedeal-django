@@ -1,0 +1,1 @@
+<div aria-live="polite" aria-atomic="false" class="space-y-3">{% for message in messages %}<div role="status" class="rounded-xl border p-4 text-sm {% if message.tags == 'error' %}border-red-200 bg-red-50 text-red-800{% else %}border-emerald-200 bg-emerald-50 text-emerald-800{% endif %}">{{ message }}</div>{% endfor %}</div>

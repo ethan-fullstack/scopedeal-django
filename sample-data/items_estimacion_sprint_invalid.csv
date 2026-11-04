@@ -1,0 +1,5 @@
+sprint_number,user_story,profile,level,estimated_hours,infrastructure_cost_cop
+1,HU-01,Backend,JR,12.00,25000.00
+1,HU-02,Frontend,JR,8.00,0.00
+2,HU-99,UnknownRole,MID,10.00,0.00
+3,HU-77,QA,MID,-4.00,100.00

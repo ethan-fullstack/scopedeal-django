@@ -1,0 +1,1 @@
+<div class="flex flex-wrap items-center gap-2"><a class="link" href="/budget-items/{{ item.pk }}/edit/">Editar</a><form method="post" action="/budget-items/{{ item.pk }}/delete/">{% csrf_token %}<button class="btn-danger" name="review" value="yes">Eliminar</button></form></div>

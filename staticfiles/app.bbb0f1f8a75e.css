@@ -1,0 +1,14 @@
+/* Native widgets and navigation details that complement Tailwind utilities. */
+html { scroll-padding-top: 110px; }
+body { margin: 0; }
+main { overflow-wrap: anywhere; }
+* { box-sizing: border-box; }
+.skip { position: fixed; left: -10000px; top: 8px; z-index: 100; }
+.skip:focus { left: 8px; padding: 12px 18px; background: white; color: #071d33; border: 2px solid #1769f5; border-radius: 8px; }
+.field-invalid input,.field-invalid textarea,.field-invalid select { border-color: #dc2626; }
+.field ul { padding-left: 1.1rem; }
+.prose-content p + p { margin-top: 12px; }
+.prose-content { overflow-wrap: anywhere; }
+summary::-webkit-details-marker { display: none; }
+[data-tab-panel] { scroll-margin-top: 100px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }

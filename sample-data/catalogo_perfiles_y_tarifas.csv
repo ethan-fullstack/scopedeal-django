@@ -1,0 +1,9 @@
+profile,level,hourly_rate_cop
+Backend,JR,35000.00
+Backend,MID,60000.00
+Backend,SR,95000.00
+Frontend,JR,30000.00
+Frontend,MID,55000.00
+QA,MID,45000.00
+DevOps,SR,110000.00
+UX,MID,50000.00

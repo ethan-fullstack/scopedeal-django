@@ -1,0 +1,37 @@
+{% load static %}<!doctype html>
+<html lang="es-CO"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071d33"><link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}"><title>{% block title %}ScopeDeal · Propuestas y acuerdos{% endblock %}</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">
+@theme { --color-navy: #071d33; --color-primary: #1769f5; --color-canvas: #f5f8fc; --font-sans: ui-sans-serif, system-ui, sans-serif; }
+@layer base { body { @apply bg-canvas text-slate-800 font-sans antialiased; } h1,h2,h3 { @apply text-navy; } a,button,input,select,textarea,summary { @apply focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary; } button,summary { @apply cursor-pointer; } }
+@layer components {
+.card { @apply rounded-2xl border border-slate-200 bg-white shadow-sm; }
+.card-body { @apply p-5 sm:p-6; }
+.btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-transparent bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 focus-visible:outline-primary disabled:cursor-wait disabled:opacity-60; }
+.btn-secondary { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50; }
+.btn-danger { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-100; }
+.link { @apply inline-flex min-h-11 items-center gap-1 text-sm font-semibold text-blue-700 hover:underline; }
+.field label { @apply mb-2 block text-sm font-semibold text-slate-700; }
+.field input:not([type=checkbox]):not([type=radio]),.field select,.field textarea { @apply block min-h-11 w-full max-w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 outline-offset-2 focus:border-primary; }
+.field input[type=checkbox] { @apply size-5 accent-primary; }
+.field input[type=file] { @apply file:mr-3 file:rounded-md file:border-0 file:bg-blue-50 file:px-3 file:py-2 file:text-blue-700; }
+.field textarea { @apply min-h-32; }
+.field ul.errorlist { @apply mt-2 space-y-1 text-sm text-red-700; }
+.field small,.field .helptext { @apply mt-2 block text-xs leading-relaxed text-slate-500; }
+.table-wrap { @apply max-w-full overflow-x-auto; }
+.data-table { @apply w-full border-collapse text-left text-sm; }
+.data-table th { @apply whitespace-nowrap border-b border-slate-200 bg-slate-50 px-5 py-3 text-xs font-semibold text-slate-600; }
+.data-table td { @apply border-b border-slate-100 px-5 py-4 align-top; }
+.data-table tbody tr { @apply hover:bg-blue-50/40; }
+.badge { @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-semibold; }
+.tab-link { @apply inline-flex min-h-12 items-center whitespace-nowrap border-b-2 border-transparent px-4 text-sm font-semibold text-slate-500 hover:text-primary; }
+.tab-link[aria-current=page] { @apply border-primary text-primary; }
+.prose-content { @apply whitespace-normal break-words text-sm leading-7 text-slate-600; }
+}
+</style><link rel="stylesheet" href="{% static 'app.css' %}"><script src="{% static 'js/navigation.js' %}" defer></script>{% block head %}{% endblock %}</head>
+<body><a class="skip" href="#main">Saltar al contenido</a>
+{% if user.is_authenticated %}{% include 'components/sidebar.html' %}<div class="lg:ml-64">{% include 'components/topbar.html' %}{% else %}<header class="border-b border-slate-200 bg-white"><div class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 py-5"><a href="{% url 'home' %}" aria-label="ScopeDeal, inicio">{% include 'components/brand.html' %}</a><nav class="flex gap-3" aria-label="Navegación pública"><a class="btn-secondary" href="{% url 'login' %}">Ingresar</a><a class="btn hidden sm:inline-flex" href="{% url 'register' %}">Crear cuenta</a></nav></div></header>{% endif %}
+<main id="main" tabindex="-1" class="mx-auto min-h-[80vh] max-w-[1600px] space-y-6 px-4 py-6 pb-28 sm:px-6 lg:px-8 lg:py-8">
+{% include 'components/flash_messages.html' %}{% block content %}{% endblock %}</main>
+<footer class="px-6 py-5 text-center text-xs text-slate-500 {% if user.is_authenticated %}pb-24 lg:pb-5{% endif %}">ScopeDeal · Del alcance al acuerdo <span class="mx-2">·</span> Presupuestos contractuales en COP</footer>{% if user.is_authenticated %}</div>{% include 'components/mobile_navigation.html' %}{% endif %}
+</body></html>
