@@ -1,0 +1,62 @@
+
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Quality Checks
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: scopedeal_test
+          POSTGRES_USER: scopedeal
+          POSTGRES_PASSWORD: scopedeal_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U scopedeal -d scopedeal_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DJANGO_SETTINGS_MODULE: config.settings.test
+      SECRET_KEY: ci-only-django-secret-not-for-production
+      DATABASE_URL: postgresql://scopedeal:scopedeal_ci@127.0.0.1:5432/scopedeal_test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+
+      - name: Install Python
+        run: uv python install 3.13
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Run Ruff
+        run: uv run --locked ruff check .
+
+      - name: Run pytest
+        run: uv run --locked pytest -q
+
