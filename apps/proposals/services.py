@@ -63,11 +63,15 @@ def new_version(user, request_id, source_id=None):
 @transaction.atomic
 def transition(user, proposal_id, action):
     reference = Proposal.objects.get(pk=proposal_id)
-    SoftwareRequest.objects.select_for_update().get(pk=reference.software_request_id)
+    software_request = SoftwareRequest.objects.select_for_update().get(
+        pk=reference.software_request_id
+    )
     proposal = Proposal.objects.select_for_update().get(pk=proposal_id)
     if action == "submit":
         developer(user)
         draft(proposal)
+        if software_request.status == "CLOSED":
+            raise InvalidProposalTransition("La solicitud está cerrada.")
         if not all(
             [
                 proposal.technical_scope.strip(),

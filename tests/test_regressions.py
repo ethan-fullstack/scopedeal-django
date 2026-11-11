@@ -38,6 +38,34 @@ def test_zero_budget_cannot_submit(world):
         transition(world["dev"], world["proposal"].pk, "submit")
 
 
+def test_closed_request_cannot_submit_existing_draft(world):
+    proposal = world["proposal"]
+    software_request = world["request"]
+    software_request.status = "CLOSED"
+    software_request.save(update_fields=["status"])
+
+    with pytest.raises(ValidationError, match="La solicitud está cerrada"):
+        transition(world["dev"], proposal.pk, "submit")
+
+    proposal.refresh_from_db()
+    assert proposal.status == "DRAFT"
+
+
+def test_closed_request_submission_displays_validation_feedback(client, world):
+    proposal = world["proposal"]
+    software_request = world["request"]
+    software_request.status = "CLOSED"
+    software_request.save(update_fields=["status"])
+    client.force_login(world["dev"])
+
+    response = client.post(f"/proposals/{proposal.pk}/submit/", follow=True)
+
+    assert response.status_code == 200
+    assert "La solicitud está cerrada" in response.content.decode()
+    proposal.refresh_from_db()
+    assert proposal.status == "DRAFT"
+
+
 def test_old_version_cannot_supersede_newer_agreement(world):
     first = transition(world["dev"], world["proposal"].pk, "submit")
     second = new_version(world["dev"], world["request"].pk, first.pk)
