@@ -2,8 +2,11 @@ import os
 from pathlib import Path
 
 import dj_database_url
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+load_dotenv(BASE_DIR / ".env")
+
 SECRET_KEY = os.environ.get("SECRET_KEY", "local-only-change-this-key-before-deployment-1234567890")
 DEBUG = False
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1,testserver").split(",")
@@ -47,7 +50,9 @@ TEMPLATES = [
 ]
 DATABASES = {
     "default": dj_database_url.config(
-        default="postgresql://scopedeal@database:5432/scopedeal", conn_max_age=0
+        default="postgresql://scopedeal@database:5432/scopedeal",
+        conn_max_age=0,
+        # default="postgresql://scopedeal@localhost:5432/scopedeal", conn_max_age=0
     )
 }
 AUTH_USER_MODEL = "accounts.User"
